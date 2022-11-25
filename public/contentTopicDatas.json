@@ -1,0 +1,30 @@
+[
+    {
+        "name": "Workplace",
+        "sl": "http://www.google.com"
+    },
+    {
+        "name": "Job Search2",
+        "sl": "https://v5.reactrouter.com/web/api/Link"
+    },
+    {
+        "name": "Careers3",
+        "sl": "https://mui.com/material-ui/react-autocomplete/"
+    },
+    {
+        "name": "Interviewing4",
+        "sl": "http://www.goole.com/"
+    },
+    {
+        "name": "Slary and Compensation5",
+        "sl": "http://www.goole.com/"
+    },
+    {
+        "name": "Interships6",
+        "sl": "http://www.goole.com/"
+    },
+    {
+        "name": "Employee Benefits7",
+        "sl": "http://www.goole.com/"
+    }
+]
