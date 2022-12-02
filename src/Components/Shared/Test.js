@@ -99,10 +99,11 @@ const Test = () => {
         }
     }
 
+    
 
 
     return (
-        <div className='h-sreen flex flex-col justify-center items-center'>
+        <div className='h-sreen flex flex-col justify-center items-center' id="test">
             <h1 className='text-4xl'>This is Test page</h1>
 
 
