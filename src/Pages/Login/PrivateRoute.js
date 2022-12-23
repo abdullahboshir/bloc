@@ -6,6 +6,7 @@ import auth from '../../firebase.init';
 const PrivateRoute = ({children}) => {
     const [user, loading, error] = useAuthState(auth);
     const location = useLocation();
+   
 
     if(loading){
         return <p>Page is Loading</p>

@@ -3,12 +3,14 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { FcGoogle } from 'react-icons/fc';
-import {  useSignInWithEmailAndPassword, useSignInWithGoogle } from 'react-firebase-hooks/auth';
+import { useSignInWithGoogle } from 'react-firebase-hooks/auth';
 import auth from '../../firebase.init';
+import axios from 'axios';
 
 const Login = () => {
-    const [email, setEmail] = useState();
+    const [emailOrPhoneNumber, setEmailOrPhoneNumber] = useState();
     const [password, setPassword] = useState();
+    const [userError, setUserError] = useState();
 
     const [signInWithGoogle, user, loading, error] = useSignInWithGoogle(auth);
     // const location = useLocation();
@@ -17,21 +19,34 @@ const Login = () => {
     // console.log(from)
 
     useEffect(() => {
-        if(user){  
-            navigate('/usersPost')
-    }
+        if (user) {
+            navigate('/userActivities')
+        }
     }, [navigate, user])
 
-    const handleLoginBlur = event => {
+    const handleLoginBlur = async (event) => {
         event.preventDefault();
-        signInWithGoogle()
+
+        const loginInfo = {
+            emailOrPhoneNumber,
+            password
+        };
+
+        await axios.post('http://localhost:5000/user/login', loginInfo)
+        .then(res =>  {
+            console.log('this is login info', res)
+        })
+        .catch(error => {
+            setUserError(error.response.data)
+            console.log(error.response)
+        })
     }
 
     return (
         <div>
             <form onSubmit={handleLoginBlur}>
-                <div className="hero min-h-screen">
-                    <div className="hero-content flex-col lg:flex-row-reverse card shadow-2xl bg-base-100 w-[400px] h-[520px]">
+                <div className="hero min-h-screen py-12">
+                    <div className="hero-content flex-col lg:flex-row-reverse card shadow-2xl bg-base-100  w-[30%] h-[550px]">
                         <div>
 
                             <div className="card-body">
@@ -48,11 +63,11 @@ const Login = () => {
                                     >
                                         <label className="label p-0 mb-4">
                                             <TextField
-                                               value={email}
-                                               onInput={ e=>setEmail(e.target.value)}
+                                                value={emailOrPhoneNumber}
+                                                onInput={e => setEmailOrPhoneNumber(e.target.value)}
                                                 style={{ width: 300 }}
                                                 id="outlined-email-input"
-                                                label="email"
+                                                label="email or phone number"
                                                 type="email"
                                                 autoComplete="current-email"
                                             />
@@ -62,7 +77,7 @@ const Login = () => {
 
                                             <TextField
                                                 value={password}
-                                                onInput={ e=>setPassword(e.target.value)}
+                                                onInput={e => setPassword(e.target.value)}
                                                 style={{ width: 300 }}
                                                 name='password'
                                                 id="outlined-password-input"
@@ -77,9 +92,9 @@ const Login = () => {
                                     <button className="rounded-full mt-6 bg-secondary text-xl text-white h-12 hover:bg-[#0578b6]">Sign in</button>
 
                                     <div className="divider">or</div>
-                                    <button type='submit' className="btn normal-case text-base px-6 btn-outline text-lower text-secondary rounded-full hover:text-secondary hover:bg-opacity-10 mb-4"> <FcGoogle className='mr-2 text-xl' /> Sign in with Google</button>
+                                    <button onClick={() => signInWithGoogle()} type='submit' className="btn normal-case text-base px-6 btn-outline text-lower text-secondary rounded-full hover:text-secondary hover:bg-opacity-10 mb-4"> <FcGoogle className='mr-2 text-xl' /> Sign in with Google</button>
 
-                                    <a className="btn normal-case text-base px-6 btn-outline text-lower text-secondary rounded-full hover:text-secondary hover:bg-opacity-10">New to Bloc? Join now</a>
+                                    <Link to='/signUp' className="btn normal-case text-base px-6 btn-outline text-lower text-secondary rounded-full hover:text-secondary hover:bg-opacity-10">New to Bloc? Join now</Link>
 
                                 </div>
                             </div>

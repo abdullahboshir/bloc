@@ -12,7 +12,6 @@ import { BiSearchAlt } from 'react-icons/bi';
 const Navbar = () => {
 
     const [userr, setUserr] = useState({})
-
     const [isActive, setIsActive] = useState(false);
 
     const [user] = useAuthState(auth);
@@ -23,8 +22,8 @@ const Navbar = () => {
     return (
         <section className='sticky top-0 z-10'>
             {
-                user && location.pathname === '/usersPost' ?
-                ''
+                user && location.pathname === '/userActivities' ?
+               ''
 
                     // <div class="navbar bg-base-100 max-w-screen m-auto mt-0 px-16 py-0 min-h-2">
                     //     <div class="flex-1">
@@ -88,7 +87,7 @@ const Navbar = () => {
                                 <a className="btn normal-case text-base px-6 mr-4 btn-outline text-lower text-secondary rounded-full hover:text-secondary hover:bg-opacity-10">Sign in</a>
                             </Link>
 
-                            <Link to='/usersPost'>
+                            <Link to='/userActivities'>
                                 <a className="btn normal-case text-base px-6 btn-outline text-lower text-secondary rounded-full hover:text-secondary hover:bg-opacity-10">All Post</a>
                             </Link>
                         </div>

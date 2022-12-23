@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Modal = ({ isModalOpen, setisModalOpen }) => {
+const CreatePost = ({ isModalOpen, setisModalOpen }) => {
     return (
         <section>
 
@@ -26,4 +26,4 @@ const Modal = ({ isModalOpen, setisModalOpen }) => {
     );
 };
 
-export default Modal;
+export default CreatePost;
