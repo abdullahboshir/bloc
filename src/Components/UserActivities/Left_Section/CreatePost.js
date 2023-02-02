@@ -71,34 +71,43 @@ const CreatePost = ({ isModalOpen, setisModalOpen }) => {
                                 <div className='flex flex-col items-start ml-3'>
                                     <h3 className="text-base  mr-3 font-bold">{user && user?.displayName || localStorageUser?.others?.firstName + ' ' + localStorageUser?.others?.lastName}</h3>
 
-                                
-                                            <label htmlFor="my-modal-3" className='border w-28 h-8  rounded-2xl border hover:border-[3px] relative hover:border-gray-300 hover:bg-gray-100 bg-gray-300 cursor-pointer  align-center items-center flex'>
-                                                {
-                                                    sliceOption.map((option, index) => <span key={index} className='absolute left-1'>
-                                                        <div className='flex align-center items-center'>
-                                                            <span className='text-lg ml-[2px]'>{option.icon}</span>
-                                                            <p className='text-base ml-1'>{option.name}</p>
-                                                            <IoIosArrowDown className='ml-2'/>
-                                                        </div>
-                                                    </span>)
-                                                }
-                                            </label>
 
-                                            {/* Put this part before </body> tag */}
-                                            <input type="checkbox" id="my-modal-3" className="modal-toggle" />
-                                            <div className="modal">
-                                                <div className="modal-box relative">
-                                                    <label htmlFor="my-modal-3" className="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
-                                                    <h3 className="text-lg font-bold">Who do you want to show this post to?</h3>
-                                                    <p className="py-4"><div>
-        <input type="radio" value="Male" name="gender" /> Male
-        <input type="radio" value="Female" name="gender" /> Female
-        <input type="radio" value="Other" name="gender" /> Other
-      </div></p>
+                                    <label htmlFor="my-modal-3" className='border w-28 h-8  rounded-2xl border hover:border-[3px] relative hover:border-gray-300 hover:bg-gray-100 bg-gray-300 cursor-pointer  align-center items-center flex'>
+                                        {
+                                            sliceOption.map((option, index) => <span key={index} className='absolute left-1'>
+                                                <div className='flex align-center items-center'>
+                                                    <span className='text-lg ml-[2px]'>{option.icon}</span>
+                                                    <p className='text-base ml-1'>{option.name}</p>
+                                                    <IoIosArrowDown className='ml-2' />
                                                 </div>
+                                            </span>)
+                                        }
+                                    </label>
+
+                                    {/* Put this part before </body> tag */}
+                                    <input type="checkbox" id="my-modal-3" className="modal-toggle" />
+                                    <div className="modal">
+                                        <div className="modal-box relative">
+                                            <label htmlFor="my-modal-3" className="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
+                                            <h3 className="text-lg font-bold">Who do you want to show this post to?</h3>
+
+                                            <div className='flex flex-col'>
+                                                <div> {
+                                                    options.map((option, index) => <div key={index} className='hover:bg-gray-300 flex py-4 pl-4'>
+                                                        
+                                                           <span className='text-3xl mr-4'> {option.icon}</span>
+                                                            <div className='flex items-start flex-col'><span className='text-xl font-semibold'>{option.name}</span> <span>{option.description}</span></div>
+                                                         
+                                                   
+                                                        <input type="radio" value="Male" name="gender" className='ml-28 w-10' />
+                                                        </div>)
+                                                }</div>
                                             </div>
 
-                              
+                                        </div>
+                                    </div>
+
+
                                 </div>
 
 
