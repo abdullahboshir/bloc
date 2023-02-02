@@ -5,24 +5,38 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { FcGoogle } from 'react-icons/fc';
 import { useSignInWithGoogle } from 'react-firebase-hooks/auth';
 import auth from '../../firebase.init';
-import axios from 'axios';
+import useToken from '../../hooks/useToken';
+import { useAuthContext } from '../../context/AuthContextProvider';
+import axios from '../../api/axios';
+
 
 const Login = () => {
     const [emailOrPhoneNumber, setEmailOrPhoneNumber] = useState();
     const [password, setPassword] = useState();
     const [userError, setUserError] = useState();
+    const [isLoading, setIsLoading] = useState(true);
+    const {users, setUsers, userToken} = useAuthContext();
 
-    const [signInWithGoogle, user, loading, error] = useSignInWithGoogle(auth);
-    // const location = useLocation();
+    const [signInWithGoogle, gUser, gLoading, error] = useSignInWithGoogle(auth);
+    const gUserToken = useToken(gUser)
+    const location = useLocation();
     const navigate = useNavigate();
-    // const from = location.state?.from?.pathname || '/';
-    // console.log(from)
+    const from = location.state?.from?.pathname || '/';
 
-    useEffect(() => {
-        if (user) {
-            navigate('/userActivities')
-        }
-    }, [navigate, user])
+        
+        // console.log('this is from localstorage', token)
+        const localStorageUser = JSON.parse( localStorage.getItem('accessToken'));
+        console.log('this is localstorage token', localStorageUser?.token)
+
+    useEffect(() =>{
+        if(localStorageUser?.token){
+            navigate('/userActivities');
+        };
+        setIsLoading(false)
+    } ,[userToken, userError, users]);
+
+   
+
 
     const handleLoginBlur = async (event) => {
         event.preventDefault();
@@ -32,15 +46,22 @@ const Login = () => {
             password
         };
 
-        await axios.post('http://localhost:5000/user/login', loginInfo)
-        .then(res =>  {
-            console.log('this is login info', res)
-        })
-        .catch(error => {
-            setUserError(error.response.data)
-            console.log(error.response)
-        })
+        await axios.post('/user/login', loginInfo)
+            .then(res => {  
+               if(res){
+                localStorage.setItem('accessToken', JSON.stringify( res.data.data))
+                setUsers(res.data);
+               }
+            })
+            .catch(error => {
+                setUserError(error.response.data)
+            })
     }
+
+    if(gLoading || isLoading){
+        return <a>Loading...........</a>
+    }
+
 
     return (
         <div>
@@ -87,6 +108,7 @@ const Login = () => {
                                             />
                                         </label>
                                     </Box>
+                                    <span className='text-red-400'>{userError?.message}</span>
 
                                     <Link className='text-left mt-2 hover:text-secondary hover:underline' to='#'>Forgot password?</Link>
                                     <button className="rounded-full mt-6 bg-secondary text-xl text-white h-12 hover:bg-[#0578b6]">Sign in</button>

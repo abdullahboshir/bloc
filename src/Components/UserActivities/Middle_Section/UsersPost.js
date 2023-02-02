@@ -21,11 +21,9 @@ const UsersPost = () => {
             setCoinData(response.data);
 
             if (currentPage > 1 && postsPerPage > 5) {
-                console.log('it less then 1?')
                 setData(response.data)
             }
             else {
-                console.log('it more then 1?')
                 const lastPostIndex = currentPage * postsPerPage;
                 const saveData = [...coinData]
                 const currentPosts = saveData.slice(0, lastPostIndex);
@@ -41,7 +39,6 @@ const UsersPost = () => {
         let bottom2 = document.documentElement.scrollHeight;
         if (bottom) {
             setCurrentPage((prev) => prev + 1);
-            console.log('thsi is checkinh', currentPage)
         }
     }
 
@@ -55,14 +52,14 @@ const UsersPost = () => {
                 <section className='min-w-[34%] flex justify-center min-h-screen'>
                     <div>
                         {
-                            data.map(item =>
-                                <div class="card w-96 bg-base-100 shadow-xl container mb-6 pl-[2px] mt-6">
+                            data.map((item, i) =>
+                                <div key={i} className="card w-96 bg-base-100 shadow-xl container mb-6 pl-[2px] mt-6">
                                     <figure className='z-20'><img src="https://placeimg.com/400/225/arch" alt="Shoes" /></figure>
-                                    <div class="card-body z-20">
-                                        <h2 class="card-title">{item.title['first']}</h2>
+                                    <div className="card-body z-20">
+                                        <h2 className="card-title">{item.title['first']}</h2>
                                         <p>{item.body}</p>
-                                        <div class="card-actions justify-end">
-                                            <button class="btn btn-primary">Buy Now</button>
+                                        <div className="card-actions justify-end">
+                                            <button className="btn btn-primary">Buy Now</button>
                                         </div>
                                     </div>
                                 </div>

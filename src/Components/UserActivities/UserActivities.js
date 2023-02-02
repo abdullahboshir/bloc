@@ -23,11 +23,9 @@ const UserActivities = () => {
             setCoinData(response.data);
 
             if (currentPage > 1 && postsPerPage > 5) {
-                console.log('it less then 1?')
                 setData(response.data)
             }
             else {
-                console.log('it more then 1?')
                 const lastPostIndex = currentPage * postsPerPage;
                 const saveData = [...coinData]
                 const currentPosts = saveData.slice(0, lastPostIndex);
@@ -43,7 +41,6 @@ const UserActivities = () => {
         let bottom2 = document.documentElement.scrollHeight;
         if (bottom) {
             setCurrentPage((prev) => prev + 1);
-            console.log('thsi is checkinh', currentPage)
         }
     }
 
@@ -67,7 +64,7 @@ const UserActivities = () => {
             </section>
 
 
-            <section className='min-w-[33%] bg-yellow-400 min-h-screen z-50'>
+            <section className='min-w-[33%] bg-yellow-400 min-h-screen z-40'>
                 <Rightbar/>
             </section>
         </div>

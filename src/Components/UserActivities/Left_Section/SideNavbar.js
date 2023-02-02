@@ -3,7 +3,7 @@ import { MdNotifications } from 'react-icons/md';
 import { RiMessage2Fill } from 'react-icons/ri';
 import { FaHome } from 'react-icons/fa';
 import { BiSearchAlt } from 'react-icons/bi';
-import { MdAddComment } from 'react-icons/md';
+import { MdAddComment, MdOutlineReadMore } from 'react-icons/md';
 import '../../../CSS/commonCss.css'
 import CreatePost from './CreatePost';
 
@@ -41,6 +41,12 @@ const SideNavbar = () => {
             path: '/',
             icon: <MdAddComment />,
             id: 5
+        },
+        {
+            name: 'More',
+            path: '/',
+            icon: <MdOutlineReadMore />,
+            id: 6
         }
     ];
 
@@ -48,20 +54,16 @@ const SideNavbar = () => {
 
     const [isOpen, setIsOpen] = useState(false);
     const [isModalOpen, setisModalOpen] = useState(false);
-    console.log(isModalOpen)
 
     const toggleModal = (id) => {
         if (!id) {
-            console.log('this is undefined', typeof (id))
             return;
         }
         else if (id === 5) {
             setisModalOpen(true);
-            console.log('true 5', isModalOpen)
         }
         else if (id === 2) {
             setIsOpen(!isOpen)
-            console.log('true 2', isOpen)
         }
     };
 
@@ -80,13 +82,13 @@ const SideNavbar = () => {
             </aside>
 
             <div className='flex w-[100%] justify-center items-start'>
-                {isOpen && <div class="mt-6 break-words w-[80%] sticky top-6">
-                    <div class="form-control w-[100%] relative flex items-center flex-row focus-within:text-gray-600 text-gray-400">
+                {isOpen && <div className="mt-6 break-words w-[80%] sticky top-6">
+                    <div className="form-control w-[100%] relative flex items-center flex-row focus-within:text-gray-600 text-gray-400">
                         <BiSearchAlt className='absolute ml-2 text-lg' />
                         <input type="text"
                             placeholder="Search"
                             aria-label='Search'
-                            class="input input-bordered pr-3 py-2 pl-8 h-10 w-[100%] aaa" />
+                            className="input input-bordered pr-3 py-2 pl-8 h-10 w-[100%] aaa" />
                     </div>
                 </div>}
             </div>

@@ -1,10 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSignInWithGoogle } from 'react-firebase-hooks/auth';
 import auth from '../../firebase.init';
-import axios from 'axios';
+import axios from '../../api/axios';
+import Swal from 'sweetalert2'
+
+
 
 const SignUp = () => {
 
@@ -16,7 +19,11 @@ const SignUp = () => {
     const [confirmPassword, setConfirmPassword] = useState();
 
     const [newUser, setNewUser] = useState();
-    const [newUserError, setNewUserError] = useState();
+    const [newUserError, setNewUserError] = useState('');
+
+    
+
+    console.log('this is letttttttt', )
 
     const [signInWithGoogle, user, loading, error] = useSignInWithGoogle(auth);
     // const location = useLocation();
@@ -25,10 +32,10 @@ const SignUp = () => {
     // console.log(from)
 
     useEffect(() => {
-        if (user) {
-            navigate('/usersPost')
+        if (user || newUser) {
+            navigate('/userActivities')
         }
-    }, [navigate, user])
+    }, [navigate, user, newUserError, setNewUserError])
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -39,19 +46,44 @@ const SignUp = () => {
             password,
             confirmPassword
         };
-        console.log("this is user info", singnupInfo)
 
-        await axios.post('http://localhost:5000/user/signup', singnupInfo)
-        .then(res =>  {
-            console.log( 'this is signup', res.data)
-        })
-        .catch(error => {
-            setNewUserError(error.response.data)
-            console.log(error.response)
-        })
+
+        await axios.post('/user/signup', singnupInfo)
+            .then(res => {
+                setNewUser(res.data);
+                console.log('this iisssssss', res.data)
+
+
+                if(res?.data?.status === 'success'){
+                    setFirstName('')
+                    setLastName('')
+                    setEmailOrPhoneNumber('')
+                    setPassword('')
+                    setConfirmPassword('')
+
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Successfully created the account, please login',
+                        showConfirmButton: false,
+                        timer: 1500
+                      })
+                      setNewUserError('') 
+                };
+
+            })
+            .catch(error => {
+                if (error.response.status === 409) {
+                    setNewUserError(error.response.data.message);
+                }
+                else {
+                    console.log('this iisssssss', error.response.data.error)
+                    setNewUserError(error.response.data.error);
+                }
+
+                console.log(error.response.message)
+            })
     };
-    console.log('this is new user', newUser)
-  
+
 
 
     return (
@@ -64,7 +96,7 @@ const SignUp = () => {
                             <div className="card-body">
                                 <div className="form-control text-left w-[300px]">
                                     <h1 className='text-4xl font-semibold text-[#843d59] mb-6'>Sign up</h1>
-                                    <p>Stay updated on your professional world</p>
+                                    <p className='mb-4'>Stay updated on your professional world</p>
                                     <Box
                                         component="form"
                                         sx={{
@@ -141,7 +173,7 @@ const SignUp = () => {
                                             />
                                         </label>
                                     </Box>
-                                    <p className='text-red-400'>{newUserError?.error}</p>
+                                    <p className='text-red-400'>{newUserError}</p>
 
 
                                     <button className="rounded-full mt-6 bg-secondary text-xl text-white h-12 hover:bg-[#0578b6]">Sign up</button>
