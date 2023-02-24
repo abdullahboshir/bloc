@@ -48,6 +48,7 @@ const Login = () => {
 
         await axios.post('/user/login', loginInfo)
             .then(res => {  
+                console.log('this from login', res)
                if(res){
                 localStorage.setItem('accessToken', JSON.stringify( res.data.data))
                 setUsers(res.data);

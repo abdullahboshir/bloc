@@ -8,7 +8,6 @@ export const AuthContextProvider = ({ children }) => {
     const userToken = users?.data?.token;
     const localStorageUser = JSON.parse( localStorage.getItem('accessToken'));
 
-    console.log('got token from user Context', localStorageUser)
 
     return (
         <authContext.Provider value={{ setUsers, users, userToken, localStorageUser }}>
